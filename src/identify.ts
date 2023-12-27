@@ -1,10 +1,10 @@
 import { write } from "./write";
-import { version } from "../package.json";
+import { name, author, version, repository } from "../package.json";
 
 export const identify = () => {
-  write('name random-step');
-  write('author artfuldev<hello@artful.dev>');
+  write(`name ${name}`);
+  write(`author ${author}`);
   write(`version ${version}`);
-  write('url https://github.com/artfuldev/random-step');
+  write(`url ${repository.url}`);
   write('identify ok');
 }
