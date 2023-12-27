@@ -1,10 +1,10 @@
-# STEP
+# ST3P
 
-Simple tic-tac-toe Engine Protocol
+Simple Tic Tac Toe Protocol
 
 ## Overview
 
-STEP is a text-based protocol facilitating communication between Tic-Tac-Toe
+ST3P is a text-based protocol facilitating communication between Tic-Tac-Toe
 engines and UI/coordinator processes.
 
 The protocol operates over standard input and output, supporting standalone
@@ -41,8 +41,8 @@ it has to respond and operate at the same level as the UI / coordinator. As the
 protocol is backwards compatible this should not be an issue.
 
 ```sh
-> step version 1
-< step version 1 ok
+> st3p version 1
+< st3p version 1 ok
 ```
 
 ### Engine Identification
