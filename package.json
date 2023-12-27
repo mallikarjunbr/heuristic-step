@@ -1,6 +1,6 @@
 {
   "name": "random-step",
-  "version": "0.2.1",
+  "version": "1.0.0",
   "description": "A tic tac toe engine that follows the step protocol but makes a random valid move every time",
   "main": "src/index.ts",
   "repository": {
