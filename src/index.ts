@@ -1,6 +1,6 @@
 import * as readline from "node:readline";
-import { write } from "./write.mjs";
-import { identify } from "./identify.mjs";
+import { write } from "./write";
+import { identify } from "./identify";
 
 const rl = readline.createInterface({
   terminal: false,
