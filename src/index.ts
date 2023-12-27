@@ -1,6 +1,7 @@
 import * as readline from "node:readline";
 import { write } from "./write";
 import { identify } from "./identify";
+import { move } from "./move";
 
 const rl = readline.createInterface({
   terminal: false,
@@ -14,5 +15,6 @@ rl.on("line", (line) => {
   if (trimmed === "step version 1") write(`${line} ok`);
   else if (trimmed === "quit" ) process.exit(0);
   else if (trimmed === "identify") identify();
+  else if (trimmed.startsWith("move")) move(trimmed.replace("move ", ""));
   else write(`unknown: ${line}`);
 });
