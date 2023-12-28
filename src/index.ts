@@ -1,7 +1,5 @@
 import * as readline from "node:readline";
-import { write } from "./write";
-import { identify } from "./identify";
-import { move } from "./move";
+import { parse, run } from "./st3p";
 
 const rl = readline.createInterface({
   terminal: false,
@@ -10,11 +8,8 @@ const rl = readline.createInterface({
 });
 
 rl.on("line", (line) => {
-  if (process.env.DEBUG) console.log(">", line);
-  const trimmed = line.trim();
-  if (trimmed === "st3p version 1") write(`${line} ok`);
-  else if (trimmed === "quit" ) process.exit(0);
-  else if (trimmed === "identify") identify();
-  else if (trimmed.startsWith("move")) move(trimmed.replace("move ", ""));
-  else write(`unknown: ${line}`);
+  if (process.env.DEBUG) console.log('>', line);
+  const [command, rest] = parse(line);
+  if (command != null) run(command);
+  else console.log(`unknown: ${rest}`);
 });
