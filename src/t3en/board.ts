@@ -3,6 +3,8 @@ import { Cell } from "./cell";
 
 export type Board = Cell[][];
 
+const expected = new Set("0123456789/_.xo".split(""));
+
 const cells = new Set([
   Cell.Playable,
   Cell.Unplayable,
@@ -16,7 +18,7 @@ export const parse: Parser<Board> = (str) => {
   let count = 0;
   for (let i = 0; i < str.length; i++) {
     const char = str[i];
-    if (char === " ") {
+    if (!expected.has(char)) {
       return success(board, str.slice(i));
     }
     if (char === "/") {
