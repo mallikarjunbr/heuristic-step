@@ -7,3 +7,4 @@ export * from "./whitespace";
 export * from "./many";
 export * from "./any";
 export * from "./integer";
+export * from "./one-or-more";

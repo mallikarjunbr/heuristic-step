@@ -1,5 +1,14 @@
 import { pipe } from "fp-ts/lib/function";
-import { and, any, integer, many, map, or, token, whitespace } from "../parser";
+import {
+  and,
+  any,
+  integer,
+  map,
+  one_or_more,
+  or,
+  token,
+  whitespace,
+} from "../parser";
 import * as T from "../t3en";
 import { best } from "../core/best";
 
@@ -25,23 +34,23 @@ const Move = (
 export const parse = pipe(
   and(
     token("move"),
-    many(whitespace),
+    one_or_more(whitespace),
     T.parse,
     or(
       pipe(
         and(
-          many(whitespace),
+          one_or_more(whitespace),
           token("time-remaining"),
-          many(whitespace),
+          one_or_more(whitespace),
           and(token("ms:"), integer)
         ),
         map(([, , , [, milliseconds]]) => TimeRemaining(milliseconds))
       ),
       pipe(
         and(
-          many(whitespace),
+          one_or_more(whitespace),
           token("time"),
-          many(whitespace),
+          one_or_more(whitespace),
           and(token("ms:"), integer)
         ),
         map(([, , , [, milliseconds]]) => TimePerMove(milliseconds))

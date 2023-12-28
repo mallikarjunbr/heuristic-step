@@ -5,7 +5,9 @@ const random = <A>(as: A[]): A => {
   return as[index];
 };
 
-export const best = async (board: Board): Promise<[number, number]> => {
+export const best = async (
+  board: Board
+): Promise<readonly [number, number]> => {
   const indices = board
     .flatMap((row, i) =>
       row.map((cell, j) => [i, j, cell === Cell.Playable] as const)

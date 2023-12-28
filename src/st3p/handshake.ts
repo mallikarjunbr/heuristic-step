@@ -1,21 +1,21 @@
 import { pipe } from "fp-ts/lib/function";
-import * as P from "../parser";
+import { and, token, one_or_more, map, whitespace } from "../parser";
 
 type Version = string;
 export type Handshake = ["handshake", Version];
 const Handshake = (version: Version): Handshake => ["handshake", version];
 
 export const parse = pipe(
-  P.and(
-    P.token("st3p"),
-    P.many(P.whitespace),
-    P.token("version"),
-    P.many(P.whitespace),
-    P.token("1")
+  and(
+    token("st3p"),
+    one_or_more(whitespace),
+    token("version"),
+    one_or_more(whitespace),
+    token("1")
   ),
-  P.map(([,,,,version]) => Handshake(version))
+  map(([, , , , version]) => Handshake(version))
 );
 
-export const handshake = async ([, version]: Handshake): Promise<void> => {
+export const handshake = async ([, version]: Handshake) => {
   console.log(`st3p version ${version} ok`);
 };
