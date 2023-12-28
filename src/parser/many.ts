@@ -1,13 +1,13 @@
-import { Parser } from "./parser";
+import { Parser, success } from "./parser";
 
 export const many = <T>(parser: Parser<T>): Parser<T[]> => (str: string) => {
   const results: T[] = [];
   let remaining = str;
   let result = parser(remaining);
-  while (result[0] != undefined) {
-    results.push(result[0]);
-    remaining = result[1];
+  while (result.type === "success") {
+    results.push(result.parsed);
+    remaining = result.remaining;
     result = parser(remaining);
   }
-  return [results, remaining];
+  return success(results, remaining);
 }

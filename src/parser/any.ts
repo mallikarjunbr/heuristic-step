@@ -1,5 +1,5 @@
-import { Parser } from "./parser";
+import { Parser, success } from "./parser";
 
-export const any: Parser<unknown> = (str: string) => {
-  return ['', str];
+export const any: Parser<undefined> = (str: string) => {
+  return success(undefined, str);
 };

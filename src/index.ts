@@ -9,7 +9,7 @@ const rl = readline.createInterface({
 
 rl.on("line", (line) => {
   if (process.env.DEBUG) console.log('>', line);
-  const [command, rest] = parse(line);
-  if (command != null) run(command);
-  else console.log(`unknown: ${rest}`);
+  const result = parse(line);
+  if (result.type === "success") run(result.parsed);
+  else console.log(`unknown: ${line}, reason: ${result.reason}`);
 });

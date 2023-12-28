@@ -1,4 +1,4 @@
-import { Parser } from "./parser";
+import { Parser, failure, success } from "./parser";
 
 type Combined<A extends any[]> = {
   readonly [I in keyof A]: Parser<A[I]>;
@@ -9,11 +9,11 @@ export const and = <T extends any[]>(...parsers: Combined<[...T]>): Parser<T> =>
   const results: T = [] as any;
   for (const parser of parsers) {
     const result = parser(remaining);
-    if (result[0] == undefined) {
-      return [undefined, str];
+    if (result.type === "failure") {
+      return failure(result.reason);
     }
-    results.push(result[0]);
-    remaining = result[1];
+    results.push(result.parsed);
+    remaining = result.remaining;
   }
-  return [results, remaining];
+  return success(results, remaining);
 }

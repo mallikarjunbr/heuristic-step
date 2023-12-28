@@ -1,4 +1,4 @@
-import { Parser } from "../parser";
+import { Parser, failure, success } from "../parser";
 import { Cell } from "./cell";
 
 export type Board = Cell[][];
@@ -17,7 +17,7 @@ export const parse: Parser<Board> = (str) => {
   for (let i = 0; i < str.length; i++) {
     const char = str[i];
     if (char === " ") {
-      return [board, str.slice(i)];
+      return success(board, str.slice(i));
     }
     if (char === "/") {
       board.push([]);
@@ -33,11 +33,11 @@ export const parse: Parser<Board> = (str) => {
     }
     count = count === 0 ? 1 : count;
     const cell = char as Cell;
-    if (!cells.has(cell)) return [undefined, str];
+    if (!cells.has(cell)) return failure(`Invalid cell ${cell}`);
     for (let j = 0; j < count; j++) {
       board[x].push(cell);
     }
     count = 0;
   }
-  return [board, ""];
+  return success(board, "");
 };
