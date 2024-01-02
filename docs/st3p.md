@@ -49,16 +49,16 @@ protocol is backwards compatible this should not be an issue.
 
 The UI/coordinator can optionally request engine details using the `identify`
 command, to which the engine responds with its name, author, version, and any
-relevant URL. These are sent in separate lines so after the keys the string is
-taken as is. After sending all details for identification the engine sends
-`identify ok`.
+relevant URL. These are sent in separate lines with an `identify ` prefix so
+after the keys the string is taken as is. After sending all details for
+identification the engine sends `identify ok`.
 
 ```sh
 > identify
-< name random-step
-< author hello@artful.dev
-< version 1.0.0
-< url https://github.com/artfuldev/random-step
+< identify name random-step
+< identify author hello@artful.dev
+< identify version 1.0.0
+< identify url https://github.com/artfuldev/random-step
 < identify ok
 ```
 

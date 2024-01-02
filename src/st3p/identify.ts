@@ -10,10 +10,12 @@ export const parse = pipe(
   map(() => Identify)
 );
 
+const write = (str: string) => console.log('identify', str);
+
 export const identify = async (_: Identify) => {
-  console.log(`name ${name}`);
-  console.log(`author ${author}`);
-  console.log(`version ${version}`);
-  console.log(`url ${repository.url}`);
-  console.log("identify ok");
+  write(`name ${name}`);
+  write(`author ${author}`);
+  write(`version ${version}`);
+  write(`url ${repository.url}`);
+  write("ok");
 };
