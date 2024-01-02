@@ -86,9 +86,11 @@ name (from left to right) and `y` is the row number (1-indexed, from top to
 bottom). This is akin to a spreadsheet. The row-numbers are natural numbers and
 the column names go from `a` to `z` and then `aa` to `zz` and so on.
 
-As an example the top-left cell of a standard 3x3 board is `a1` and the bottom-right cell is `c3`.
+As an example the top-left cell of a standard 3x3 board is `a1` and the
+bottom-right cell is `c3`.
 
-For a larger 27x27 board, the top-left cell is `a1` and the bottom-right cell is `aa27`.
+For a larger 27x27 board, the top-left cell is `a1` and the bottom-right cell is
+`aa27`.
 
 ```sh
 > move 3_/3_/3_ x
