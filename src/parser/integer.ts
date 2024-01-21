@@ -1,3 +1,4 @@
+import { isExternal } from "util/types";
 import { Parser, failure, success } from "./parser";
 
 export const integer: Parser<number> = (str: string) => {

@@ -1,4 +1,6 @@
+import { EMPTY, of } from "rxjs";
 import { Parser, or } from "../parser";
+import { Sinks } from "../sinks";
 import * as H from "./handshake";
 import * as I from "./identify";
 import * as M from "./move";
@@ -8,7 +10,7 @@ export type Command = H.Handshake | I.Identify | M.Move | Q.Quit;
 
 export const parse: Parser<Command> = or(H.parse, I.parse, M.parse, Q.parse);
 
-export const run = async (command: Command) => {
+export const run = (command: Command): Sinks => {
   switch (command[0]) {
     case "handshake":
       return H.handshake(command);
@@ -19,6 +21,10 @@ export const run = async (command: Command) => {
     case "quit":
       return Q.quit(command);
     default:
-      return console.error(new Error("unknown command"));
+      return {
+        stdout: EMPTY,
+        stderr: of(new Error("unknown command").message),
+        exit: EMPTY,
+      };
   }
-}
+};

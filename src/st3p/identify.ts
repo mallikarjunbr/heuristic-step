@@ -1,21 +1,27 @@
-import { token, map } from "../parser";
+import * as P from "../parser";
 import { name, author, version, repository } from "../../package.json";
 import { pipe } from "fp-ts/lib/function";
+import { Sinks } from "../sinks";
+import { EMPTY, from, map } from "rxjs";
 
 export type Identify = ["identify"];
 const Identify: Identify = ["identify"];
 
 export const parse = pipe(
-  token("identify"),
-  map(() => Identify)
+  P.token("identify"),
+  P.map(() => Identify)
 );
 
-const write = (str: string) => console.log('identify', str);
-
-export const identify = async (_: Identify) => {
-  write(`name ${name}`);
-  write(`author ${author}`);
-  write(`version ${version}`);
-  write(`url ${repository.url}`);
-  write("ok");
+export const identify = (_: Identify): Sinks => {
+  return {
+    stderr: EMPTY,
+    exit: EMPTY,
+    stdout: from([
+      `name ${name}`,
+      `author ${author}`,
+      `version ${version}`,
+      `url ${repository.url}`,
+      "ok",
+    ]).pipe(map((str) => `identify ${str}`)),
+  };
 };

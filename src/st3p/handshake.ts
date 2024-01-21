@@ -1,5 +1,7 @@
 import { pipe } from "fp-ts/lib/function";
 import { and, token, one_or_more, map, whitespace } from "../parser";
+import { Sinks } from "../sinks";
+import { EMPTY, of } from "rxjs";
 
 type Version = string;
 export type Handshake = ["handshake", Version];
@@ -16,6 +18,10 @@ export const parse = pipe(
   map(([, , , , version]) => Handshake(version))
 );
 
-export const handshake = async ([, version]: Handshake) => {
-  console.log(`st3p version ${version} ok`);
+export const handshake = ([, version]: Handshake): Sinks => {
+  return {
+    stderr: EMPTY,
+    stdout: of(`st3p version ${version} ok`),
+    exit: EMPTY,
+  };
 };

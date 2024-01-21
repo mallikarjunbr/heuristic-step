@@ -1,16 +1,9 @@
 import { pipe } from "fp-ts/lib/function";
-import {
-  and,
-  any,
-  integer,
-  map,
-  one_or_more,
-  or,
-  token,
-  whitespace,
-} from "../parser";
+import * as P from "../parser";
 import * as T from "../t3en";
 import { best } from "../core/best";
+import { Sinks } from "../sinks";
+import { EMPTY, catchError, filter, from, map, of } from "rxjs";
 
 type Infinite = ["infinite"];
 const Infinite: Infinite = ["infinite"];
@@ -32,36 +25,36 @@ const Move = (
 ): Move => ["move", state, time];
 
 export const parse = pipe(
-  and(
-    token("move"),
-    one_or_more(whitespace),
+  P.and(
+    P.token("move"),
+    P.one_or_more(P.whitespace),
     T.parse,
-    or(
+    P.or(
       pipe(
-        and(
-          one_or_more(whitespace),
-          token("time-remaining"),
-          one_or_more(whitespace),
-          and(token("ms:"), integer)
+        P.and(
+          P.one_or_more(P.whitespace),
+          P.token("time-remaining"),
+          P.one_or_more(P.whitespace),
+          P.and(P.token("ms:"), P.integer)
         ),
-        map(([, , , [, milliseconds]]) => TimeRemaining(milliseconds))
+        P.map(([, , , [, milliseconds]]) => TimeRemaining(milliseconds))
       ),
       pipe(
-        and(
-          one_or_more(whitespace),
-          token("time"),
-          one_or_more(whitespace),
-          and(token("ms:"), integer)
+        P.and(
+          P.one_or_more(P.whitespace),
+          P.token("time"),
+          P.one_or_more(P.whitespace),
+          P.and(P.token("ms:"), P.integer)
         ),
-        map(([, , , [, milliseconds]]) => TimePerMove(milliseconds))
+        P.map(([, , , [, milliseconds]]) => TimePerMove(milliseconds))
       ),
       pipe(
-        any,
-        map(() => Infinite)
+        P.any,
+        P.map(() => Infinite)
       )
     )
   ),
-  map(([, , state, time]) => Move(state, time))
+  P.map(([, , state, time]) => Move(state, time))
 );
 
 const column = (index: number) => {
@@ -75,11 +68,16 @@ const column = (index: number) => {
   return result;
 };
 
-export const move = async ([, [board]]: Move) => {
-  try {
-    const [x, y] = await best(board);
-    console.log(`best ${column(y)}${x + 1}`);
-  } catch (error) {
-    console.error(error);
-  }
+export const move = ([, [board]]: Move): Sinks => {
+  const best$ = from(best(board)).pipe(
+    map(([x, y]) => `best ${column(y)}${x + 1}`)
+  );
+  return {
+    stderr: best$.pipe(
+      filter(() => false),
+      catchError((err) => of((err as Error).message))
+    ),
+    stdout: best$,
+    exit: EMPTY,
+  };
 };
