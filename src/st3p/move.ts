@@ -35,7 +35,7 @@ export const parse = pipe(
           P.one_or_more(P.whitespace),
           P.token("time-remaining"),
           P.one_or_more(P.whitespace),
-          P.and(P.token("ms:"), P.integer)
+          P.and(P.token("ms:"), P.non_zero_positive_integer)
         ),
         P.map(([, , , [, milliseconds]]) => TimeRemaining(milliseconds))
       ),
@@ -44,7 +44,7 @@ export const parse = pipe(
           P.one_or_more(P.whitespace),
           P.token("time"),
           P.one_or_more(P.whitespace),
-          P.and(P.token("ms:"), P.integer)
+          P.and(P.token("ms:"), P.non_zero_positive_integer)
         ),
         P.map(([, , , [, milliseconds]]) => TimePerMove(milliseconds))
       ),

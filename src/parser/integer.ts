@@ -6,7 +6,7 @@ import { non_zero_digit } from "./non-zero-digit";
 import { digit } from "./digit";
 import { map } from "./map";
 
-export const integer: Parser<number> = pipe(
+export const non_zero_positive_integer: Parser<number> = pipe(
   and(non_zero_digit, many(digit)),
   map(([first, rest]) => [first, ...rest].join("")),
   map(Number)
