@@ -1,7 +1,6 @@
 import { filter, map, mergeWith, of, switchMap } from "rxjs";
-import { parse } from "./st3p";
 import { ParseFailure, ParseSuccess } from "./parser";
-import { Command, run } from "./st3p/command";
+import { Command, run, parse } from "./st3p";
 import { Sources } from "./sources";
 import { Sinks } from "./sinks";
 

@@ -1,1 +1,1 @@
-export { run, parse } from "./command";
+export { Command, run, parse } from "./command";
