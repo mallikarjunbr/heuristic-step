@@ -8,3 +8,7 @@ export * from "./many";
 export * from "./any";
 export * from "./integer";
 export * from "./one-or-more";
+export * from "./parse-result";
+export * from "./digit";
+export * from "./non-zero-digit";
+export * from "./filter";

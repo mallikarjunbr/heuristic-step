@@ -1,5 +1,6 @@
-import { Parser, success } from "./parser";
+import { ParseResult } from "./parse-result";
+import { Parser } from "./parser";
 
 export const any: Parser<undefined> = (str: string) => {
-  return success(undefined, str);
+  return ParseResult.Success(undefined, str);
 };
