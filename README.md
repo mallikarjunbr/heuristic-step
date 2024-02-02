@@ -11,5 +11,5 @@ Use docker to build an image and run it in interactive pseudo-TTY mode.
 
 ```sh
 docker build . -t random-step
-docker run -it --memory="512m" --cpus="1.0" random-step
+docker run -it --memory=512m --cpus=1.0 --network=none random-step
 ```
