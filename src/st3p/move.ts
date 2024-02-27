@@ -4,6 +4,7 @@ import * as T from "../t3en";
 import { best } from "../core/best";
 import { Sinks } from "../sinks";
 import { EMPTY, catchError, filter, from, map, of } from "rxjs";
+import { log } from "console";
 
 type Infinite = ["infinite"];
 const Infinite: Infinite = ["infinite"];
@@ -68,8 +69,8 @@ const column = (index: number) => {
   return result;
 };
 
-export const move = ([, [board]]: Move): Sinks => {
-  const best$ = from(best(board)).pipe(
+export const move = ([, [board, side]]: Move): Sinks => {
+  const best$ = from(best(board, side)).pipe(
     map(([x, y]) => `best ${column(y)}${x + 1}`)
   );
   return {
